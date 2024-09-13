@@ -185,7 +185,7 @@ export const useStore = create<
       partialize: (state) => ({
         activeRelayIndex: state.activeRelayIndex,
         relays: [
-          ...new Set(['wss://groups.fiatjaf.com', 'wss://relay.groups.nip29.com', ...state.relays]),
+          ...new Set([ 'wss://relay.forums.nip29.com', ...state.relays]),
         ],
         sidebarWidth: state.sidebarWidth,
         isCollapsed: state.isCollapsed,
