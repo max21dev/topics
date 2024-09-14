@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 import { Badge } from '@/shared/components/ui/badge';
 
-export const ChatListDateBadge = ({ date }: { date: Date }) => {
+export const PostListDateBadge = ({ date }: { date: Date }) => {
   const dateString = format(date, 'dd MMMM');
   const todayString = format(new Date(), 'dd MMMM');
   const yesterdayString = format(new Date(new Date().setDate(new Date().getDate() - 1)), 'dd MMMM');

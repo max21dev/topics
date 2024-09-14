@@ -5,13 +5,13 @@ import { useMemo } from 'react';
 import { useNip29Ndk } from '@/shared/hooks';
 import { LimitFilter } from '@/shared/types';
 
-export const useTopicMessages = (
+export const useTopicPosts = (
   topicId: string | undefined,
   limitFilter?: LimitFilter | undefined,
 ) => {
   const { nip29Ndk } = useNip29Ndk();
 
-  const { events: messagesEvents } = useSubscribe(
+  const { events: postsEvents } = useSubscribe(
     useMemo(
       () => ({
         filters: !topicId
@@ -30,9 +30,9 @@ export const useTopicMessages = (
     ),
   );
 
-  const messages = useMemo(
+  const posts = useMemo(
     () =>
-      messagesEvents.map((e) => ({
+      postsEvents.map((e) => ({
         id: e.id,
         authorPublicKey: e.pubkey,
         topicId: String(e.getMatchingTags('h')[0]?.[1]),
@@ -41,8 +41,8 @@ export const useTopicMessages = (
         replyTo: e.getMatchingTags('e')[0] ? String(e.getMatchingTags('e')[0][1]) : null,
         event: e,
       })),
-    [messagesEvents],
+    [postsEvents],
   );
 
-  return { messages };
+  return { posts };
 };

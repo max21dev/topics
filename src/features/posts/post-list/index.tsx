@@ -1,31 +1,25 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { ChatListDateBadge, ChatListItem } from '@/features/chats';
+import { PostListDateBadge, PostListItem } from '@/features/posts';
 
 import { cn, sameDay } from '@/shared/utils';
 
-import { useChatList } from './hooks';
+import { usePostList } from './hooks';
 
-export function ChatList() {
-  const {
-    messagesContainerRef,
-    messageRefs,
-    setDeletedMessages,
-    scrollToMessage,
-    activeUser,
-    processedMessages,
-  } = useChatList();
+export function PostList() {
+  const { postsContainerRef, postRefs, setDeletedPosts, scrollToPost, activeUser, processedPosts } =
+    usePostList();
 
   return (
     <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
       <div
-        ref={messagesContainerRef}
+        ref={postsContainerRef}
         className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col bg-background"
       >
         <AnimatePresence>
-          {processedMessages.map((message, i, arr) => (
+          {processedPosts.map((post, i, arr) => (
             <motion.div
-              key={message.id}
+              key={post.id}
               layout
               initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
               animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
@@ -35,7 +29,7 @@ export function ChatList() {
                 layout: {
                   type: 'spring',
                   bounce: 0.3,
-                  duration: processedMessages.indexOf(message) * 0.05 + 0.2,
+                  duration: processedPosts.indexOf(post) * 0.05 + 0.2,
                 },
               }}
               style={{
@@ -44,21 +38,21 @@ export function ChatList() {
               }}
               className={cn(
                 'flex flex-col gap-2 whitespace-pre-wrap',
-                message.authorPublicKey !== activeUser?.pubkey ? 'items-start' : 'items-end mr-2',
+                post.authorPublicKey !== activeUser?.pubkey ? 'items-start' : 'items-end mr-2',
               )}
               ref={(el) => {
-                messageRefs.current[message.id] = el;
+                postRefs.current[post.id] = el;
               }}
             >
-              {(i == 0 || !sameDay(message.createdAt, processedMessages[i - 1].createdAt)) && (
-                <ChatListDateBadge date={new Date(message.createdAt * 1000)} />
+              {(i == 0 || !sameDay(post.createdAt, processedPosts[i - 1].createdAt)) && (
+                <PostListDateBadge date={new Date(post.createdAt * 1000)} />
               )}
-              <ChatListItem
-                message={message}
-                setDeletedMessages={setDeletedMessages}
-                scrollToMessage={scrollToMessage}
+              <PostListItem
+                post={post}
+                setDeletedPosts={setDeletedPosts}
+                scrollToPost={scrollToPost}
                 itemIndex={i}
-                messages={arr}
+                posts={arr}
               />
             </motion.div>
           ))}

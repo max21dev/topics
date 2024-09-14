@@ -38,7 +38,7 @@ export type TopicAdminPermission =
   | 'edit-topic-status'
   | 'create-topic';
 
-export type TopicMessage = {
+export type TopicPost = {
   id: string;
   topicId: string;
   authorPublicKey: string;
@@ -50,7 +50,7 @@ export type TopicMessage = {
 export type TopicReply = {
   id: string;
   topicId: string;
-  topicMessageId: string;
+  topicPostId: string;
   authorPublicKey: string;
   content: string;
   createdAt: string;

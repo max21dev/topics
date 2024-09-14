@@ -11,48 +11,48 @@ import {
 import { UserAvatar } from '@/features/users/user-avatar';
 import { cn, ellipsis, loader } from '@/shared/utils';
 
-import { useChatListItem } from './hooks';
-import { ChatListItemProps } from './types';
+import { usePostListItem } from './hooks';
+import { PostListItemProps } from './types';
 import { format } from 'date-fns';
 
-export const ChatListItem = ({
-  message,
+export const PostListItem = ({
+  post,
   itemIndex,
-  messages,
-  scrollToMessage,
-  setDeletedMessages,
-}: ChatListItemProps) => {
+  posts,
+  scrollToPost,
+  setDeletedPosts,
+}: PostListItemProps) => {
   const {
     profile,
-    deleteMessage,
-    firstMessageAuthor,
-    isLastMessage,
-    sameAuthorAsNextMessage,
+    deletePost,
+    firstPostAuthor,
+    isLastPost,
+    sameAuthorAsNextPost,
     sameAsCurrentUser,
     canDeleteEvent,
     setReplyTo,
-    categorizedMessageContent,
+    categorizedPostContent,
     firstReplyImageUrl,
     replyAuthorProfile,
     reply,
     setZapTarget,
     openZapModal,
     activeUser,
-    likeMessage,
+    likePost,
     reactions,
-  } = useChatListItem({ itemIndex, messages, message });
+  } = usePostListItem({ itemIndex, posts, post });
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  if (!message) return null;
+  if (!post) return null;
 
   return (
-    <div className={cn('flex ml-3 gap-3', !sameAuthorAsNextMessage ? 'mb-4' : 'mb-0')}>
+    <div className={cn('flex ml-3 gap-3', !sameAuthorAsNextPost ? 'mb-4' : 'mb-0')}>
       {!sameAsCurrentUser && (
         <>
-          {isLastMessage || !sameAuthorAsNextMessage ? (
+          {isLastPost || !sameAuthorAsNextPost ? (
             <div className="mt-auto">
-              <UserAvatar pubkey={message.authorPublicKey} />
+              <UserAvatar pubkey={post.authorPublicKey} />
             </div>
           ) : (
             <div className="w-10" />
@@ -71,21 +71,21 @@ export const ChatListItem = ({
                   : 'bg-secondary text-secondary-foreground',
               )}
             >
-              {firstMessageAuthor && !sameAsCurrentUser && (
+              {firstPostAuthor && !sameAsCurrentUser && (
                 <div className="mb-1 text-xs font-semibold opacity-50">
                   {profile?.displayName
                     ? profile.displayName
-                    : message.authorPublicKey.slice(0, 5) + '...'}
+                    : post.authorPublicKey.slice(0, 5) + '...'}
                 </div>
               )}
 
-              {message.replyTo && (
+              {post.replyTo && (
                 <div
                   className="mb-2 text-xs bg-primary/20 cursor-pointer border-l-4 border-primary/25 rounded-lg p-1 flex items-start"
-                  onClick={() => scrollToMessage(message.replyTo || '')}
+                  onClick={() => scrollToPost(post.replyTo || '')}
                 >
                   {firstReplyImageUrl && (
-                    <img src={loader(firstReplyImageUrl, { w: 50 })} alt="Reply Message Image" />
+                    <img src={loader(firstReplyImageUrl, { w: 50 })} alt="Reply Post Image" />
                   )}
                   <div>
                     <div className="text-xs font-semibold opacity-60">
@@ -101,11 +101,11 @@ export const ChatListItem = ({
               <div
                 className={cn(
                   'flex gap-2',
-                  message.content.length < 80 ? 'items-center' : 'flex-col justify-end',
+                  post.content.length < 80 ? 'items-center' : 'flex-col justify-end',
                 )}
               >
                 <div>
-                  {categorizedMessageContent.map((part, i) => {
+                  {categorizedPostContent.map((part, i) => {
                     if (part.category == 'text') {
                       return (
                         <p key={i} className="text-sm">
@@ -117,7 +117,7 @@ export const ChatListItem = ({
                         <img
                           key={i}
                           src={loader(part.content, { w: 200 })}
-                          alt="message"
+                          alt="post"
                           className="max-w-full h-40 rounded-lg mt-2 cursor-pointer"
                           max-width="200"
                           onClick={() => setSelectedImage(part.content)}
@@ -154,7 +154,7 @@ export const ChatListItem = ({
                     </div>
                   )}
 
-                  <span>{format(new Date(message.createdAt * 1000), 'HH:mm')}</span>
+                  <span>{format(new Date(post.createdAt * 1000), 'HH:mm')}</span>
                 </div>
               </div>
             </div>
@@ -164,29 +164,29 @@ export const ChatListItem = ({
               {canDeleteEvent && (
                 <ContextMenuItem
                   onClick={() => {
-                    deleteMessage(message.id, message.topicId);
-                    setDeletedMessages((prev) => [...(prev || []), message.id]);
+                    deletePost(post.id, post.topicId);
+                    setDeletedPosts((prev) => [...(prev || []), post.id]);
                   }}
                 >
                   <Trash2 className="h-4 w-4 mr-3" />
                   Delete
                 </ContextMenuItem>
               )}
-              <ContextMenuItem onClick={() => setReplyTo(message)}>
+              <ContextMenuItem onClick={() => setReplyTo(post)}>
                 <Undo className="h-4 w-4 mr-3" />
                 Reply
               </ContextMenuItem>
-              <ContextMenuItem onClick={() => likeMessage(message.id, message.topicId, true)}>
+              <ContextMenuItem onClick={() => likePost(post.id, post.topicId, true)}>
                 <ThumbsUp className="h-4 w-4 mr-3" />
                 Like
               </ContextMenuItem>
-              <ContextMenuItem onClick={() => likeMessage(message.id, message.topicId, false)}>
+              <ContextMenuItem onClick={() => likePost(post.id, post.topicId, false)}>
                 <ThumbsDown className="h-4 w-4 mr-3" />
                 Dislike
               </ContextMenuItem>
               <ContextMenuItem
                 onClick={() => {
-                  setZapTarget(message.event);
+                  setZapTarget(post.event);
                   openZapModal();
                 }}
               >
@@ -204,7 +204,7 @@ export const ChatListItem = ({
           className="fixed max-w-full p-20 inset-0 z-50 flex items-center justify-center bg-black/80"
           onClick={() => setSelectedImage(null)}
         >
-          <img src={selectedImage} alt="Enlarged message" className="h-auto rounded-lg" />
+          <img src={selectedImage} alt="Enlarged post" className="h-auto rounded-lg" />
         </div>
       )}
     </div>

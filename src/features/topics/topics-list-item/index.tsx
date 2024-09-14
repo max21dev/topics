@@ -7,7 +7,7 @@ import { cn, displayTime, ellipsis } from '@/shared/utils';
 import { useTopicsListItem } from './hooks';
 
 export const TopicsListItem = ({ topicId }: { topicId: string | undefined }) => {
-  const { topic, isCollapsed, messages, setActiveTopicId, activeTopicId, showTopic } =
+  const { topic, isCollapsed, posts, setActiveTopicId, activeTopicId, showTopic } =
     useTopicsListItem({
       topicId,
     });
@@ -32,19 +32,17 @@ export const TopicsListItem = ({ topicId }: { topicId: string | undefined }) => 
           <div className="w-full flex items-center">
             <div className="truncate">{topic.name}</div>
 
-            {messages.length > 0 && (
+            {posts.length > 0 && (
               <div className="ml-auto shrink-0 text-gray-300 text-xs">
-                {displayTime(messages[0].createdAt)}
+                {displayTime(posts[0].createdAt)}
               </div>
             )}
           </div>
 
           <span className="text-gray-400 truncate">{ellipsis(topic.about, 20)} </span>
 
-          {messages.length > 0 && (
-            <span className="text-xs text-gray-300 truncate">
-              {ellipsis(messages[0].content, 20)}
-            </span>
+          {posts.length > 0 && (
+            <span className="text-xs text-gray-300 truncate">{ellipsis(posts[0].content, 20)}</span>
           )}
         </div>
       )}

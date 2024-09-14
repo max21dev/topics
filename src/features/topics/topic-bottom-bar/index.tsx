@@ -8,15 +8,15 @@ import { Textarea } from '@/shared/components/ui/textarea';
 
 import { cn } from '@/shared/utils';
 
-import { useChatBottomBar } from './hooks';
+import { useTopicBottomBar } from './hooks';
 
 const BottomBarIcons = [{ icon: FileImage }, { icon: Paperclip }];
 
-export const ChatBottomBar = () => {
+export const TopicBottomBar = () => {
   const {
     inputRef,
-    message,
-    setMessage,
+    post,
+    setPost,
     isMember,
     isAdmin,
     replyTo,
@@ -27,8 +27,8 @@ export const ChatBottomBar = () => {
     sendJoinRequest,
     openLoginModal,
     activeUser,
-    messages,
-  } = useChatBottomBar();
+    posts,
+  } = useTopicBottomBar();
 
   if (!activeUser) {
     return (
@@ -37,7 +37,7 @@ export const ChatBottomBar = () => {
           className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
           onClick={() => openLoginModal()}
         >
-          To send messages, please login first.
+          To publish a post, please login first.
         </button>
       </div>
     );
@@ -61,8 +61,7 @@ export const ChatBottomBar = () => {
       {replyTo && (
         <div className="p-2 bg-accent border-t w-full flex justify-between items-center">
           <span className="text-sm text-gray-500">
-            Replying to:{' '}
-            {messages?.find((msg) => msg.id === replyTo.id)?.content || 'Deleted message'}
+            Replying to: {posts?.find((post) => post.id === replyTo.id)?.content || 'Deleted post'}
           </span>
           <button onClick={() => setReplyTo(undefined)} className="text-sm ml-2">
             Cancel
@@ -84,7 +83,7 @@ export const ChatBottomBar = () => {
               </div>
             </PopoverTrigger>
             <PopoverContent side="top" className="w-full p-2">
-              {message.trim() ? (
+              {post.trim() ? (
                 <div className="flex gap-2">
                   <div
                     className={cn(
@@ -121,7 +120,7 @@ export const ChatBottomBar = () => {
               )}
             </PopoverContent>
           </Popover>
-          {!message.trim() && (
+          {!post.trim() && (
             <div className="flex">
               {BottomBarIcons.map((icon, index) => (
                 <div
@@ -157,18 +156,18 @@ export const ChatBottomBar = () => {
           >
             <Textarea
               autoComplete="off"
-              value={message}
+              value={post}
               ref={inputRef}
               onKeyDown={handleKeyPress}
-              onChange={(event) => setMessage(event.target.value)}
-              name="message"
-              placeholder="Write a message..."
+              onChange={(event) => setPost(event.target.value)}
+              name="post"
+              placeholder="Write a post..."
               className="w-full border rounded-full flex items-center h-10 resize-none overflow-hidden bg-background"
             ></Textarea>
             <div className="absolute right-2 bottom-2.5 flex gap-2">
               <EmojiPicker
                 onChange={(value) => {
-                  setMessage(message + value);
+                  setPost(post + value);
                   if (inputRef.current) {
                     inputRef.current.focus();
                   }
@@ -177,7 +176,7 @@ export const ChatBottomBar = () => {
             </div>
           </motion.div>
 
-          {message.trim() ? (
+          {post.trim() ? (
             <div
               className={cn(
                 buttonVariants({ variant: 'ghost', size: 'icon' }),

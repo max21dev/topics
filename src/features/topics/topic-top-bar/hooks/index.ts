@@ -1,7 +1,7 @@
 import { useActiveTopic, useTopic } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
 
-export const useChatTopBar = () => {
+export const useTopicTopBar = () => {
   const { activeTopicId } = useActiveTopic();
   const { topic, status } = useTopic(activeTopicId);
 

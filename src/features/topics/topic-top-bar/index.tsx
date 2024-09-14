@@ -12,10 +12,10 @@ import {
   SheetTrigger,
 } from '@/shared/components/ui/sheet';
 
-import { useChatTopBar } from './hooks';
+import { useTopicTopBar } from './hooks';
 
-export const ChatTopBar = () => {
-  const { topic, isTopicDetailsOpen, status, toggleTopicDetails, activeTopicId } = useChatTopBar();
+export const TopicTopBar = () => {
+  const { topic, isTopicDetailsOpen, status, toggleTopicDetails, activeTopicId } = useTopicTopBar();
 
   return (
     <div className="w-full border-b">

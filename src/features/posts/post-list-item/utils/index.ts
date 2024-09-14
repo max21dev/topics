@@ -1,6 +1,6 @@
-import { CategorizedMessageContent } from '../types';
+import { CategorizedPostContent } from '../types';
 
-export const categorizeMessageContent = (content: string): CategorizedMessageContent[] => {
+export const categorizePostContent = (content: string): CategorizedPostContent[] => {
   // Regular expression to match URLs and image URLs
   const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
   const imageRegex = /\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i;

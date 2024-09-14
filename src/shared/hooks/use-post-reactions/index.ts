@@ -3,11 +3,11 @@ import { useSubscribe } from 'nostr-hooks';
 import { useMemo } from 'react';
 
 import { useNip29Ndk } from '@/shared/hooks';
-import { LimitFilter, TopicMessage } from '@/shared/types';
+import { LimitFilter, TopicPost } from '@/shared/types';
 
-export const useMessageReactions = (
+export const usePostReactions = (
   topicId: string | undefined,
-  message: TopicMessage | undefined,
+  post: TopicPost | undefined,
   limitFilter?: LimitFilter | undefined,
 ) => {
   const { nip29Ndk } = useNip29Ndk();
@@ -16,30 +16,30 @@ export const useMessageReactions = (
     useMemo(
       () => ({
         filters:
-          !message || !topicId
+          !post || !topicId
             ? []
             : [
                 {
                   kinds: [7 as NDKKind],
                   '#h': [topicId],
-                  '#e': [message.id],
+                  '#e': [post.id],
                   ...limitFilter,
                 },
               ],
-        enabled: !!message?.id,
+        enabled: !!post?.id,
         customNdk: nip29Ndk,
       }),
-      [message, topicId, limitFilter, nip29Ndk],
+      [post, topicId, limitFilter, nip29Ndk],
     ),
   );
 
   const reactions = useMemo(
     () => ({
-      messageId: message?.id,
+      postId: post?.id,
       like: reactionsEvents.filter((e) => e.content === '+').length,
       disLike: reactionsEvents.filter((e) => e.content === '-').length,
     }),
-    [message?.id, reactionsEvents],
+    [post?.id, reactionsEvents],
   );
 
   return { reactions };

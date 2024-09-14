@@ -6,18 +6,18 @@ import {
   useGlobalNdk,
   useTopicAdmins,
   useTopicMembers,
-  useTopicMessages,
+  useTopicPosts,
   useLoginModalState,
   useNip29Ndk,
 } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
-import { TopicMessage, LimitFilter } from '@/shared/types';
+import { TopicPost, LimitFilter } from '@/shared/types';
 
 const limitFilter: LimitFilter = { limit: 200 };
 
-export const useChatBottomBar = () => {
+export const useTopicBottomBar = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [message, setMessage] = useState('');
+  const [post, setPost] = useState('');
   const [isMember, setIsMember] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -29,22 +29,22 @@ export const useChatBottomBar = () => {
   const { activeTopicId } = useActiveTopic();
   const { members } = useTopicMembers(activeTopicId);
   const { admins } = useTopicAdmins(activeTopicId);
-  const { messages } = useTopicMessages(activeTopicId, limitFilter);
+  const { posts } = useTopicPosts(activeTopicId, limitFilter);
   const { openLoginModal } = useLoginModalState();
 
   const { activeUser } = useActiveUser({ customNdk: globalNdk });
   const { createNewEvent } = useNewEvent({ customNdk: nip29Ndk });
 
   const handleThumbsUp = () => {
-    sendMessage('👍', replyTo);
-    setMessage('');
+    sendPost('👍', replyTo);
+    setPost('');
   };
 
   const handleSend = () => {
-    const messageToSend = message.trim();
-    if (messageToSend) {
-      sendMessage(messageToSend, replyTo);
-      setMessage('');
+    const postToSend = post.trim();
+    if (postToSend) {
+      sendPost(postToSend, replyTo);
+      setPost('');
       setReplyTo(undefined);
 
       if (inputRef.current) {
@@ -60,12 +60,12 @@ export const useChatBottomBar = () => {
     }
     if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault();
-      setMessage((prev) => prev + '\n');
+      setPost((prev) => prev + '\n');
     }
   };
 
-  const sendMessage = (message: string, replyTo?: TopicMessage) => {
-    if (!activeTopicId || !message) return;
+  const sendPost = (post: string, replyTo?: TopicPost) => {
+    if (!activeTopicId || !post) return;
 
     if (!activeUser) {
       openLoginModal();
@@ -74,7 +74,7 @@ export const useChatBottomBar = () => {
 
     const event = createNewEvent();
     event.kind = 9;
-    event.content = message;
+    event.content = post;
     event.tags = [['h', activeTopicId], ...(replyTo?.id ? [['e', replyTo.id, '', 'reply']] : [])];
     event.publish();
   };
@@ -102,8 +102,8 @@ export const useChatBottomBar = () => {
   }, [members, admins, activeUser]);
 
   return {
-    message,
-    setMessage,
+    post,
+    setPost,
     handleKeyPress,
     handleSend,
     handleThumbsUp,
@@ -113,7 +113,7 @@ export const useChatBottomBar = () => {
     replyTo,
     setReplyTo,
     inputRef,
-    messages,
+    posts,
     activeUser,
     openLoginModal,
   };

@@ -6,21 +6,21 @@ import {
   useGlobalNdk,
   useGlobalProfile,
   useLoginModalState,
-  useMessageReactions,
+  usePostReactions,
   useNip29Ndk,
   useTopicAdmin,
   useZapModalState,
 } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
 
-import { ChatListItemProps } from '../types';
-import { categorizeMessageContent, fetchFirstContentImage } from '../utils';
+import { PostListItemProps } from '../types';
+import { categorizePostContent, fetchFirstContentImage } from '../utils';
 
-export const useChatListItem = ({
-  message,
+export const usePostListItem = ({
+  post,
   itemIndex,
-  messages,
-}: Pick<ChatListItemProps, 'message' | 'itemIndex' | 'messages'>) => {
+  posts,
+}: Pick<PostListItemProps, 'post' | 'itemIndex' | 'posts'>) => {
   const setReplyTo = useStore((state) => state.setReplyTo);
 
   const { openLoginModal } = useLoginModalState();
@@ -33,31 +33,30 @@ export const useChatListItem = ({
   const { activeUser } = useActiveUser({ customNdk: globalNdk });
   const { activeTopicId } = useActiveTopic();
   const { canDeleteEvent } = useTopicAdmin(activeTopicId, activeUser?.pubkey);
-  const { reactions } = useMessageReactions(activeTopicId, message);
+  const { reactions } = usePostReactions(activeTopicId, post);
 
-  const { profile } = useGlobalProfile({ pubkey: message?.authorPublicKey });
+  const { profile } = useGlobalProfile({ pubkey: post?.authorPublicKey });
 
-  const sameAsCurrentUser = message?.authorPublicKey === activeUser?.pubkey;
+  const sameAsCurrentUser = post?.authorPublicKey === activeUser?.pubkey;
 
-  const isLastMessage = messages.length === itemIndex + 1;
-  const sameAuthorAsNextMessage =
-    !isLastMessage &&
-    messages[itemIndex].authorPublicKey === messages[itemIndex + 1].authorPublicKey;
-  const firstMessageAuthor =
-    itemIndex === 0 || messages[itemIndex - 1].authorPublicKey !== message?.authorPublicKey;
-  const categorizedMessageContent = useMemo(
-    () => categorizeMessageContent(message?.content || ''),
-    [message?.content],
+  const isLastPost = posts.length === itemIndex + 1;
+  const sameAuthorAsNextPost =
+    !isLastPost && posts[itemIndex].authorPublicKey === posts[itemIndex + 1].authorPublicKey;
+  const firstPostAuthor =
+    itemIndex === 0 || posts[itemIndex - 1].authorPublicKey !== post?.authorPublicKey;
+  const categorizedPostContent = useMemo(
+    () => categorizePostContent(post?.content || ''),
+    [post?.content],
   );
 
-  const reply = messages.find((e) => e.id === message?.replyTo);
+  const reply = posts.find((e) => e.id === post?.replyTo);
   const { profile: replyAuthorProfile } = useGlobalProfile({ pubkey: reply?.authorPublicKey });
   const firstReplyImageUrl = useMemo(
     () => fetchFirstContentImage(reply?.content || ''),
     [reply?.content],
   );
 
-  function deleteMessage(eventId: string, topicId: string) {
+  function deletePost(eventId: string, topicId: string) {
     if (!activeUser) {
       openLoginModal();
       return;
@@ -72,7 +71,7 @@ export const useChatListItem = ({
     event.publish();
   }
 
-  function likeMessage(eventId: string, topicId: string, like: boolean) {
+  function likePost(eventId: string, topicId: string, like: boolean) {
     if (!activeUser) {
       openLoginModal();
       return;
@@ -90,22 +89,22 @@ export const useChatListItem = ({
   }
 
   return {
-    isLastMessage,
-    sameAuthorAsNextMessage,
-    firstMessageAuthor,
+    isLastPost,
+    sameAuthorAsNextPost,
+    firstPostAuthor,
     profile,
-    deleteMessage,
+    deletePost,
     sameAsCurrentUser,
     canDeleteEvent,
     setReplyTo,
-    categorizedMessageContent,
+    categorizedPostContent,
     firstReplyImageUrl,
     replyAuthorProfile,
     reply,
     setZapTarget,
     openZapModal,
     activeUser,
-    likeMessage,
+    likePost,
     reactions,
   };
 };

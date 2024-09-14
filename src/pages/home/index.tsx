@@ -1,6 +1,6 @@
-import { ChatBottomBar, ChatList, ChatTopBar } from '@/features/chats';
+import { PostList } from '@/features/posts';
 import { RelaySelectDropdown, RelayTopicsCount } from '@/features/relays';
-import { TopicsFilterDropdown, TopicsList } from '@/features/topics';
+import { TopicBottomBar, TopicsFilterDropdown, TopicsList, TopicTopBar } from '@/features/topics';
 import { ActiveUserInfo } from '@/features/users';
 
 import { ModeToggle } from '@/shared/components/mode-toggle';
@@ -55,9 +55,9 @@ export function HomePage() {
               <div className="flex justify-center items-center h-full">Please select a Topic</div>
             ) : (
               <>
-                <ChatTopBar />
-                <ChatList />
-                <ChatBottomBar />
+                <TopicTopBar />
+                <PostList />
+                <TopicBottomBar />
               </>
             )}
           </div>

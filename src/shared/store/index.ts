@@ -3,7 +3,7 @@ import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { TopicMessage, TopicsFilter } from '../types';
+import { TopicPost, TopicsFilter } from '../types';
 
 type AppState = {
   sidebarWidth: number;
@@ -45,13 +45,13 @@ type NdkActions = {
 
 type ChatState = {
   activeTopicId: string | undefined;
-  replyTo: TopicMessage | undefined;
+  replyTo: TopicPost | undefined;
   isTopicDetailsOpen: boolean;
 };
 
 type ChatActions = {
   setActiveTopicId: (activeTopicId: string | undefined) => void;
-  setReplyTo: (replyTo: TopicMessage | undefined) => void;
+  setReplyTo: (replyTo: TopicPost | undefined) => void;
   toggleTopicDetails: () => void;
 };
 

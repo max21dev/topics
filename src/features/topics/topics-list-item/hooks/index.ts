@@ -7,7 +7,7 @@ import {
   useTopic,
   useTopicAdmins,
   useTopicMembers,
-  useTopicMessages,
+  useTopicPosts,
 } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
 import { LimitFilter } from '@/shared/types';
@@ -51,14 +51,14 @@ export const useTopicsListItem = ({ topicId }: { topicId: string | undefined }) 
     }
   }, [members, admins, activeUser, topicsFilter]);
 
-  const { messages } = useTopicMessages(topicId, limitFilter);
+  const { posts } = useTopicPosts(topicId, limitFilter);
 
   const isCollapsed = useStore((state) => state.isCollapsed);
 
   return {
     setActiveTopicId,
     topic,
-    messages,
+    posts,
     isCollapsed,
     activeTopicId,
     showTopic,
