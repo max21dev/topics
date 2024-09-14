@@ -1,28 +1,27 @@
-# 💬 Forums
+# 💭 Topics
 
 ## Introduction
 
-**"Forums"** is a free and open-source forum application built on the Nostr protocol, utilizing the NIP-29 standard to support relay-based groups with specific moderation capabilities.
+**"Topics"** is a free and open-source forum application built on the Nostr protocol, utilizing the NIP-29 standard to support relay-based forums with specific moderation capabilities.
 This client enables users to participate in topics managed by relays, where access and participation are governed by rules enforced by the relay.
-
 
 ## Live Demo
 
-You can access the live demo of **"Groups"** at the following URL:
+You can access the live demo of **"Topics"** at the following URL:
 
-- [forumss.nip29.com](https://forums.nip29.com)
+- [topics.nip29.com](https://topics.nip29.com)
 
 ## Installation
 
-To install and run **"Forums"** locally, follow these steps:
+To install and run **"Topics"** locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/max21dev/forums.git
+   git clone https://github.com/max21dev/topics.git
    ```
 2. **Navigate to the project directory:**
    ```bash
-   cd forums
+   cd topics
    ```
 3. **Install dependencies:**
    ```bash
@@ -35,7 +34,7 @@ To install and run **"Forums"** locally, follow these steps:
 
 ## Usage
 
-Once the development server is running, you can access the forums client through your web browser. The interface will allow you to create or join topics, participate in discussions, and manage topic settings.
+Once the development server is running, you can access the **"Topics"** client through your web browser. The interface will allow you to create or join topics, participate in discussions, and manage topic settings.
 
 ## Libraries and Tools Used
 
