@@ -2,16 +2,16 @@ import { useActiveUser, useNewEvent } from 'nostr-hooks';
 import React, { useEffect, useRef, useState } from 'react';
 
 import {
-  useActiveGroup,
+  useActiveTopic,
   useGlobalNdk,
-  useGroupAdmins,
-  useGroupMembers,
-  useGroupMessages,
+  useTopicAdmins,
+  useTopicMembers,
+  useTopicMessages,
   useLoginModalState,
   useNip29Ndk,
 } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
-import { GroupMessage, LimitFilter } from '@/shared/types';
+import { TopicMessage, LimitFilter } from '@/shared/types';
 
 const limitFilter: LimitFilter = { limit: 200 };
 
@@ -26,10 +26,10 @@ export const useChatBottomBar = () => {
 
   const { globalNdk } = useGlobalNdk();
   const { nip29Ndk } = useNip29Ndk();
-  const { activeGroupId } = useActiveGroup();
-  const { members } = useGroupMembers(activeGroupId);
-  const { admins } = useGroupAdmins(activeGroupId);
-  const { messages } = useGroupMessages(activeGroupId, limitFilter);
+  const { activeTopicId } = useActiveTopic();
+  const { members } = useTopicMembers(activeTopicId);
+  const { admins } = useTopicAdmins(activeTopicId);
+  const { messages } = useTopicMessages(activeTopicId, limitFilter);
   const { openLoginModal } = useLoginModalState();
 
   const { activeUser } = useActiveUser({ customNdk: globalNdk });
@@ -64,8 +64,8 @@ export const useChatBottomBar = () => {
     }
   };
 
-  const sendMessage = (message: string, replyTo?: GroupMessage) => {
-    if (!activeGroupId || !message) return;
+  const sendMessage = (message: string, replyTo?: TopicMessage) => {
+    if (!activeTopicId || !message) return;
 
     if (!activeUser) {
       openLoginModal();
@@ -75,7 +75,7 @@ export const useChatBottomBar = () => {
     const event = createNewEvent();
     event.kind = 9;
     event.content = message;
-    event.tags = [['h', activeGroupId], ...(replyTo?.id ? [['e', replyTo.id, '', 'reply']] : [])];
+    event.tags = [['h', activeTopicId], ...(replyTo?.id ? [['e', replyTo.id, '', 'reply']] : [])];
     event.publish();
   };
 
@@ -85,11 +85,11 @@ export const useChatBottomBar = () => {
       return;
     }
 
-    if (!activeGroupId) return;
+    if (!activeTopicId) return;
 
     const event = createNewEvent();
     event.kind = 9021;
-    event.tags = [['h', activeGroupId]];
+    event.tags = [['h', activeTopicId]];
     event.publish();
     //TODO: check if join request was successful
   };

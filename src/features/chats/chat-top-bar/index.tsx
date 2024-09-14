@@ -1,6 +1,6 @@
 import { Info, Loader2 } from 'lucide-react';
 
-import { GroupAvatar, GroupDetails } from '@/features/groups';
+import { TopicAvatar, TopicDetails } from '@/features/topics';
 
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -15,7 +15,7 @@ import {
 import { useChatTopBar } from './hooks';
 
 export const ChatTopBar = () => {
-  const { group, isGroupDetailsOpen, status, toggleGroupDetails, activeGroupId } = useChatTopBar();
+  const { topic, isTopicDetailsOpen, status, toggleTopicDetails, activeTopicId } = useChatTopBar();
 
   return (
     <div className="w-full border-b">
@@ -24,20 +24,20 @@ export const ChatTopBar = () => {
           {status == 'loading' && <Loader2 className="w-6 h-6 animate-spin" />}
           {status == 'success' && (
             <>
-              <GroupAvatar groupId={activeGroupId} />
+              <TopicAvatar topicId={activeTopicId} />
 
               <div className="flex flex-col">
-                <span className="font-light text-xs">{group?.id}</span>
-                <span className="font-bold mt-0 mb-0">{group?.name}</span>
+                <span className="font-light text-xs">{topic?.id}</span>
+                <span className="font-bold mt-0 mb-0">{topic?.name}</span>
                 <span className="text-xs">
-                  {group?.privacy} and {group?.type}
+                  {topic?.privacy} and {topic?.type}
                 </span>
               </div>
             </>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <Sheet onOpenChange={() => toggleGroupDetails()}>
+          <Sheet onOpenChange={() => toggleTopicDetails()}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Info size={25} />
@@ -48,9 +48,9 @@ export const ChatTopBar = () => {
                 <SheetTitle />
                 <SheetDescription />
               </SheetHeader>
-              {isGroupDetailsOpen && activeGroupId && (
+              {isTopicDetailsOpen && activeTopicId && (
                 <div className="grid gap-4 py-4">
-                  <GroupDetails groupId={activeGroupId} />
+                  <TopicDetails topicId={activeTopicId} />
                 </div>
               )}
             </SheetContent>

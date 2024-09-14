@@ -2,13 +2,13 @@ import { useActiveUser, useNewEvent } from 'nostr-hooks';
 import { useMemo } from 'react';
 
 import {
-  useActiveGroup,
+  useActiveTopic,
   useGlobalNdk,
   useGlobalProfile,
-  useGroupAdmin,
   useLoginModalState,
   useMessageReactions,
   useNip29Ndk,
+  useTopicAdmin,
   useZapModalState,
 } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
@@ -31,9 +31,9 @@ export const useChatListItem = ({
 
   const { createNewEvent } = useNewEvent({ customNdk: nip29Ndk });
   const { activeUser } = useActiveUser({ customNdk: globalNdk });
-  const { activeGroupId } = useActiveGroup();
-  const { canDeleteEvent } = useGroupAdmin(activeGroupId, activeUser?.pubkey);
-  const { reactions } = useMessageReactions(activeGroupId, message);
+  const { activeTopicId } = useActiveTopic();
+  const { canDeleteEvent } = useTopicAdmin(activeTopicId, activeUser?.pubkey);
+  const { reactions } = useMessageReactions(activeTopicId, message);
 
   const { profile } = useGlobalProfile({ pubkey: message?.authorPublicKey });
 
@@ -57,7 +57,7 @@ export const useChatListItem = ({
     [reply?.content],
   );
 
-  function deleteMessage(eventId: string, groupId: string) {
+  function deleteMessage(eventId: string, topicId: string) {
     if (!activeUser) {
       openLoginModal();
       return;
@@ -66,13 +66,13 @@ export const useChatListItem = ({
     const event = createNewEvent();
     event.kind = 9005;
     event.tags = [
-      ['h', groupId],
+      ['h', topicId],
       ['e', eventId],
     ];
     event.publish();
   }
 
-  function likeMessage(eventId: string, groupId: string, like: boolean) {
+  function likeMessage(eventId: string, topicId: string, like: boolean) {
     if (!activeUser) {
       openLoginModal();
       return;
@@ -82,7 +82,7 @@ export const useChatListItem = ({
     event.kind = 7;
     event.content = like ? '+' : '-';
     event.tags = [
-      ['h', groupId],
+      ['h', topicId],
       ['e', eventId],
       ['p', activeUser.pubkey],
     ];

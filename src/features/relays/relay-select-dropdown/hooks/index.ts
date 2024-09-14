@@ -16,7 +16,7 @@ export const useRelaySelectDropDown = () => {
   const safeRemoveRelay = useStore((state) => state.safeRemoveRelay);
   const activeRelayIndex = useStore((state) => state.activeRelayIndex);
   const setActiveRelayIndex = useStore((state) => state.setActiveRelayIndex);
-  const setActiveGroupId = useStore((state) => state.setActiveGroupId);
+  const setActiveTopicId = useStore((state) => state.setActiveTopicId);
   const isCollapsed = useStore((state) => state.isCollapsed);
 
   const { toast } = useToast();
@@ -56,6 +56,6 @@ export const useRelaySelectDropDown = () => {
     handleAddNewRelay,
     handleDeleteRelay,
     setActiveRelayIndex,
-    setActiveGroupId,
+    setActiveTopicId,
   };
 };

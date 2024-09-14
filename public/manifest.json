@@ -1,7 +1,7 @@
 {
-  "name": "forums",
-  "short_name": "forums",
-  "description": "forums",
+  "name": "topics",
+  "short_name": "topics",
+  "description": "topics",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000",

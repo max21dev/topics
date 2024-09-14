@@ -5,10 +5,9 @@
 **"Topics"** is a free and open-source forum application built on the Nostr protocol, utilizing the NIP-29 standard to support relay-based groups with specific moderation capabilities.
 This client enables users to participate in topics managed by relays, where access and participation are governed by rules enforced by the relay.
 
-
 ## Live Demo
 
-You can access the live demo of **"Groups"** at the following URL:
+You can access the live demo of **"Topics"** at the following URL:
 
 - [topics.nip29.com](https://topics.nip29.com)
 

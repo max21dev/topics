@@ -1,6 +1,6 @@
 import { useActiveUser } from 'nostr-hooks';
 
-import { useActiveGroup, useGlobalNdk } from '@/shared/hooks';
+import { useActiveTopic, useGlobalNdk } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
 
 export const useHomePage = () => {
@@ -8,12 +8,12 @@ export const useHomePage = () => {
 
   const { globalNdk } = useGlobalNdk();
 
-  const { activeGroupId } = useActiveGroup();
+  const { activeTopicId } = useActiveTopic();
   const { activeUser } = useActiveUser({ customNdk: globalNdk });
 
   return {
     isCollapsed,
-    activeGroupId,
+    activeTopicId,
     activeUser,
   };
 };

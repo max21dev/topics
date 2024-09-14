@@ -7,7 +7,7 @@ import { cn } from '@/shared/utils';
 import { useActiveUserInfo } from './hooks';
 
 export function ActiveUserInfo() {
-  const { activeGroupId, activeUser, isCollapsed, openLoginModal, profile } = useActiveUserInfo();
+  const { activeTopicId, activeUser, isCollapsed, openLoginModal, profile } = useActiveUserInfo();
 
   return (
     <>
@@ -26,7 +26,7 @@ export function ActiveUserInfo() {
             </div>
           )}
         </div>
-      ) : !activeGroupId ? (
+      ) : !activeTopicId ? (
         <div className="p-2 w-full border-t">
           <Button variant="outline" className="w-full" onClick={() => openLoginModal()}>
             Login
