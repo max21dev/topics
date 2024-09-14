@@ -164,7 +164,7 @@ export const ChatListItem = ({
               {canDeleteEvent && (
                 <ContextMenuItem
                   onClick={() => {
-                    deleteMessage(message.id, message.groupId);
+                    deleteMessage(message.id, message.topicId);
                     setDeletedMessages((prev) => [...(prev || []), message.id]);
                   }}
                 >
@@ -176,11 +176,11 @@ export const ChatListItem = ({
                 <Undo className="h-4 w-4 mr-3" />
                 Reply
               </ContextMenuItem>
-              <ContextMenuItem onClick={() => likeMessage(message.id, message.groupId, true)}>
+              <ContextMenuItem onClick={() => likeMessage(message.id, message.topicId, true)}>
                 <ThumbsUp className="h-4 w-4 mr-3" />
                 Like
               </ContextMenuItem>
-              <ContextMenuItem onClick={() => likeMessage(message.id, message.groupId, false)}>
+              <ContextMenuItem onClick={() => likeMessage(message.id, message.topicId, false)}>
                 <ThumbsDown className="h-4 w-4 mr-3" />
                 Dislike
               </ContextMenuItem>

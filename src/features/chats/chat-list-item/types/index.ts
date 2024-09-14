@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { GroupMessage } from '@/shared/types';
+import { TopicMessage } from '@/shared/types';
 
 export type ChatListItemProps = {
   itemIndex: number;
-  message?: GroupMessage;
-  messages: GroupMessage[];
+  message?: TopicMessage;
+  messages: TopicMessage[];
   scrollToMessage: (messageId: string) => void;
   setDeletedMessages: React.Dispatch<React.SetStateAction<string[]>>;
 };

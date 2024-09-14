@@ -5,7 +5,7 @@ import { useStore } from '@/shared/store';
 export const useSidebar = () => {
   const [transition, setTransition] = useState(false);
 
-  const isGroupDetailsOpen = useStore((state) => state.isGroupDetailsOpen);
+  const isTopicDetailsOpen = useStore((state) => state.isTopicDetailsOpen);
   const sidebarWidth = useStore((state) => state.sidebarWidth);
   const isCollapsed = useStore((state) => state.isCollapsed);
   const hasCustomSidebarWidth = useStore((state) => state.hasCustomSidebarWidth);
@@ -39,7 +39,7 @@ export const useSidebar = () => {
     setTransition,
     isCollapsed,
     setIsCollapsed,
-    isGroupDetailsOpen,
+    isTopicDetailsOpen,
     setSidebarWidth,
     sidebarWidth,
     setHasCustomSidebarWidth,

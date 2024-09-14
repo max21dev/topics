@@ -1,56 +1,56 @@
 import { NDKEvent } from '@nostr-dev-kit/ndk';
 
-export type Group = {
+export type Topic = {
   id: string;
   name: string;
   picture: string;
   about: string;
   privacy: 'public' | 'private';
   type: 'open' | 'closed';
-  admins: GroupAdmin[];
-  members: GroupMember[];
+  admins: TopicAdmin[];
+  members: TopicMember[];
   event: NDKEvent;
 };
 
-export type GroupMetadata = {
+export type TopicMetadata = {
   id: string;
   name: string;
   picture: string;
   about: string;
 };
 
-export type GroupAdmin = {
+export type TopicAdmin = {
   publicKey: string;
-  permissions: GroupAdminPermission[];
+  permissions: TopicAdminPermission[];
 };
 
-export type GroupMember = {
+export type TopicMember = {
   publicKey: string;
 };
 
-export type GroupAdminPermission =
+export type TopicAdminPermission =
   | 'add-user'
   | 'edit-metadata'
   | 'delete-event'
   | 'remove-user'
   | 'add-permission'
   | 'remove-permission'
-  | 'edit-group-status'
-  | 'create-group';
+  | 'edit-topic-status'
+  | 'create-topic';
 
-export type GroupMessage = {
+export type TopicMessage = {
   id: string;
-  groupId: string;
+  topicId: string;
   authorPublicKey: string;
   content: string;
   createdAt: number;
   event: NDKEvent;
   replyTo?: string | null;
 };
-export type GroupReply = {
+export type TopicReply = {
   id: string;
-  groupId: string;
-  groupMessageId: string;
+  topicId: string;
+  topicMessageId: string;
   authorPublicKey: string;
   content: string;
   createdAt: string;
@@ -62,7 +62,7 @@ export type LimitFilter = {
   limit?: number;
 };
 
-export type GroupsFilter = {
+export type TopicsFilter = {
   belongTo?: boolean;
   manage?: boolean;
   own?: boolean;

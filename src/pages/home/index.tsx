@@ -1,6 +1,6 @@
 import { ChatBottomBar, ChatList, ChatTopBar } from '@/features/chats';
-import { GroupsFilterDropdown, GroupsList } from '@/features/groups';
-import { RelayGroupsCount, RelaySelectDropdown } from '@/features/relays';
+import { RelaySelectDropdown, RelayTopicsCount } from '@/features/relays';
+import { TopicsFilterDropdown, TopicsList } from '@/features/topics';
 import { ActiveUserInfo } from '@/features/users';
 
 import { ModeToggle } from '@/shared/components/mode-toggle';
@@ -11,7 +11,7 @@ import { cn } from '@/shared/utils';
 import { useHomePage } from './hooks';
 
 export function HomePage() {
-  const { isCollapsed, activeGroupId, activeUser } = useHomePage();
+  const { isCollapsed, activeTopicId, activeUser } = useHomePage();
 
   return (
     <>
@@ -27,12 +27,12 @@ export function HomePage() {
 
               {activeUser?.pubkey && (
                 <div className="mt-2 flex gap-1">
-                  <GroupsFilterDropdown />
+                  <TopicsFilterDropdown />
                 </div>
               )}
             </div>
 
-            <div className="p-2">{!isCollapsed && <RelayGroupsCount />}</div>
+            <div className="p-2">{!isCollapsed && <RelayTopicsCount />}</div>
 
             <div
               className={cn(
@@ -40,7 +40,7 @@ export function HomePage() {
                 isCollapsed && 'justify-center',
               )}
             >
-              <GroupsList />
+              <TopicsList />
             </div>
 
             <div className="mt-auto w-full">
@@ -51,7 +51,7 @@ export function HomePage() {
 
         <div className="w-full">
           <div className="flex flex-col justify-between w-full h-full">
-            {!activeGroupId ? (
+            {!activeTopicId ? (
               <div className="flex justify-center items-center h-full">Please select a Topic</div>
             ) : (
               <>

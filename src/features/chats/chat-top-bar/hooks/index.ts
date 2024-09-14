@@ -1,18 +1,18 @@
-import { useActiveGroup, useGroup } from '@/shared/hooks';
+import { useActiveTopic, useTopic } from '@/shared/hooks';
 import { useStore } from '@/shared/store';
 
 export const useChatTopBar = () => {
-  const { activeGroupId } = useActiveGroup();
-  const { group, status } = useGroup(activeGroupId);
+  const { activeTopicId } = useActiveTopic();
+  const { topic, status } = useTopic(activeTopicId);
 
-  const isGroupDetailsOpen = useStore((state) => state.isGroupDetailsOpen);
-  const toggleGroupDetails = useStore((state) => state.toggleGroupDetails);
+  const isTopicDetailsOpen = useStore((state) => state.isTopicDetailsOpen);
+  const toggleTopicDetails = useStore((state) => state.toggleTopicDetails);
 
   return {
-    group,
+    topic,
     status,
-    isGroupDetailsOpen,
-    toggleGroupDetails,
-    activeGroupId,
+    isTopicDetailsOpen,
+    toggleTopicDetails,
+    activeTopicId,
   };
 };

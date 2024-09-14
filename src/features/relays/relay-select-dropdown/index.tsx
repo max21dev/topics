@@ -38,7 +38,7 @@ export const RelaySelectDropdown = () => {
     handleDeleteRelay,
     isCollapsed,
     setActiveRelayIndex,
-    setActiveGroupId,
+    setActiveTopicId,
   } = useRelaySelectDropDown();
 
   return (
@@ -62,7 +62,7 @@ export const RelaySelectDropdown = () => {
             value={activeRelayIndex.toString()}
             onValueChange={(value) => {
               setActiveRelayIndex(+value);
-              setActiveGroupId(undefined);
+              setActiveTopicId(undefined);
             }}
           >
             {relays.map((relay, index) => (
@@ -99,7 +99,7 @@ export const RelaySelectDropdown = () => {
               <DialogHeader>
                 <DialogTitle>Add New Relay URL</DialogTitle>
                 <DialogDescription>
-                  Please enter the URL of the new relay where you'd like to view the forums topics.
+                  Please enter the URL of the new relay where you'd like to view the topics.
                 </DialogDescription>
               </DialogHeader>
               <Input

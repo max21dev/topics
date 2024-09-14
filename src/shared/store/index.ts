@@ -3,7 +3,7 @@ import NDKCacheAdapterDexie from '@nostr-dev-kit/ndk-cache-dexie';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { GroupMessage, GroupsFilter } from '../types';
+import { TopicMessage, TopicsFilter } from '../types';
 
 type AppState = {
   sidebarWidth: number;
@@ -44,23 +44,23 @@ type NdkActions = {
 };
 
 type ChatState = {
-  activeGroupId: string | undefined;
-  replyTo: GroupMessage | undefined;
-  isGroupDetailsOpen: boolean;
+  activeTopicId: string | undefined;
+  replyTo: TopicMessage | undefined;
+  isTopicDetailsOpen: boolean;
 };
 
 type ChatActions = {
-  setActiveGroupId: (activeGroupId: string | undefined) => void;
-  setReplyTo: (replyTo: GroupMessage | undefined) => void;
-  toggleGroupDetails: () => void;
+  setActiveTopicId: (activeTopicId: string | undefined) => void;
+  setReplyTo: (replyTo: TopicMessage | undefined) => void;
+  toggleTopicDetails: () => void;
 };
 
-type GroupsState = {
-  groupsFilter: GroupsFilter | undefined;
+type TopicsState = {
+  topicsFilter: TopicsFilter | undefined;
 };
 
-type GroupsActions = {
-  setGroupsFilter: (groupsFilter: GroupsFilter | undefined) => void;
+type TopicsActions = {
+  setTopicsFilter: (topicsFilter: TopicsFilter | undefined) => void;
 };
 
 type RelaysState = {
@@ -83,8 +83,8 @@ export const useStore = create<
     ChatActions &
     RelaysState &
     RelaysActions &
-    GroupsState &
-    GroupsActions
+    TopicsState &
+    TopicsActions
 >()(
   persist(
     (set, get) => ({
@@ -136,21 +136,21 @@ export const useStore = create<
 
       // Chat State
 
-      activeGroupId: undefined,
+      activeTopicId: undefined,
 
       replyTo: undefined,
 
-      isGroupDetailsOpen: false,
+      isTopicDetailsOpen: false,
 
-      setActiveGroupId: (activeGroupId) => set({ activeGroupId }),
+      setActiveTopicId: (activeTopicId) => set({ activeTopicId }),
 
       setReplyTo: (replyTo) => set({ replyTo }),
 
-      toggleGroupDetails: () => set((state) => ({ isGroupDetailsOpen: !state.isGroupDetailsOpen })),
+      toggleTopicDetails: () => set((state) => ({ isTopicDetailsOpen: !state.isTopicDetailsOpen })),
 
       // Relay State
 
-      relays: ['wss://relay.forums.nip29.com'],
+      relays: ['wss://relay.topics.nip29.com'],
 
       activeRelayIndex: 0,
 
@@ -177,16 +177,14 @@ export const useStore = create<
 
       setActiveRelayIndex: (activeRelayIndex) => set({ activeRelayIndex }),
 
-      groupsFilter: { belongTo: true, manage: true, own: true, notJoined: true },
-      setGroupsFilter: (groupsFilter) => set({ groupsFilter }),
+      topicsFilter: { belongTo: true, manage: true, own: true, notJoined: true },
+      setTopicsFilter: (topicsFilter) => set({ topicsFilter }),
     }),
     {
       name: 'app-storage',
       partialize: (state) => ({
         activeRelayIndex: state.activeRelayIndex,
-        relays: [
-          ...new Set([ 'wss://relay.forums.nip29.com', ...state.relays]),
-        ],
+        relays: [...new Set(['wss://relay.topics.nip29.com', ...state.relays])],
         sidebarWidth: state.sidebarWidth,
         isCollapsed: state.isCollapsed,
         hasCustomSidebarWidth: state.hasCustomSidebarWidth,
